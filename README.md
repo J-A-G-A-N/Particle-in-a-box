@@ -15,13 +15,28 @@
 - quantum number (n) = 10
 
 ## Equations used
-**Shrodinger Time Dependent Equaiton**
-$$ -\frac{\hbar^2}{2m} \frac{\partial ^2\psi(x,t)}{\partial x^2} + V(x)\psi(x,t) = \iota\hbar \frac{\partial \psi(x,t)}{\partial t}$$
-**Solution in Discrete**  
-$$\psi(x,t) = \sum_n c_n\, \phi_n(x)\, e^{-i E_n t / \hbar}$$
-**where:**
-$$c_n = \sum_{x} \phi_n^*(x)\,\psi(x,0)\, dx$$
-**Derived Hamiltonian**
+### Schrödinger Time Dependent Equation
+
+$$
+-\frac{\hbar^2}{2m} \frac{\partial^2 \psi(x,t)}{\partial x^2}
++ V(x)\psi(x,t)
+= i\hbar \frac{\partial \psi(x,t)}{\partial t}
+$$
+
+### Solution in Discrete
+
+$$
+\psi(x,t) = \sum_n c_n\, \phi_n(x)\, e^{-i E_n t / \hbar}
+$$
+
+where
+
+$$
+c_n = \sum_x \phi_n^*(x)\,\psi(x,0)\, dx
+$$
+
+### Derived Hamiltonian
+
 $$
 H =
 \begin{pmatrix}
@@ -32,7 +47,13 @@ B & A_2 & B & \cdots & 0 \\
 0 & 0 & 0 & B & A_N
 \end{pmatrix}
 $$
-**where:**   
-   $$B = \frac{-\hbar^2}{2m(\Delta{x})^2}$$
-   $$A = \frac{2\hbar^2}{2m(\Delta{x})^2} + V(x_j)$$
 
+where
+
+$$
+B = -\frac{\hbar^2}{2m(\Delta x)^2}
+$$
+
+$$
+A_j = \frac{\hbar^2}{m(\Delta x)^2} + V(x_j)
+$$
