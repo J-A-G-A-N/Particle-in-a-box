@@ -18,8 +18,7 @@
 ### Schrödinger Time Dependent Equation
 
 $$
--\frac{\hbar^2}{2m} \frac{\partial^2 \psi(x,t)}{\partial x^2}
-+ V(x)\psi(x,t)
+ -\frac{\hbar^2}{2m} \frac{\partial^2 \psi(x,t)}{\partial x^2} + V(x)\psi(x,t)
 = i\hbar \frac{\partial \psi(x,t)}{\partial t}
 $$
 
