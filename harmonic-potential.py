@@ -7,13 +7,13 @@ import scipy as sp
 
 
 def build_grid(N, L):
-    x = np.linspace(0, L, N + 2)[1:-1]
+    x = np.linspace(-L, L, N)
     dx = x[1] - x[0]
     return x, dx
 
 
-def infinite_potential(x):
-    return np.zeros_like(x)
+def harmonic_potential(x, omega):
+    return 0.5 * omega**2 * x**2
 
 
 def build_hamiltonian(N, dx, potenetial):
@@ -59,8 +59,8 @@ def energies_in_ev(engeries, L):
     return engeries * E_scale_ev
 
 
-def solve_numerical(N, dx, n_modes, x):
-    V = infinite_potential(x)
+def solve_numerical(N, dx, n_modes, omega, x):
+    V = harmonic_potential(x, omega)
     H = build_hamiltonian(N, dx, V)
     eigen_values, eigen_vectors = solve_eigh(
         H
@@ -69,10 +69,31 @@ def solve_numerical(N, dx, n_modes, x):
     return eigen_values[:n_modes], state_vec[:n_modes]
 
 
-def actual_solution(L, n_modes, x):
+def analytical_wavefunction(n_modes, omega, x):
+    x = np.asarray(x)
+    xi = np.sqrt(omega) * x
+    pref = (omega / np.pi) ** 0.25
+
+    states = np.empty((n_modes, x.size))
+
+    exp_factor = np.exp(-0.5 * omega * x**2)
+
+    for n in range(n_modes):
+        norm = pref / np.sqrt(2**n * sp.special.factorial(n))
+        states[n] = norm * sp.special.eval_hermite(n, xi) * exp_factor
+
+    return states
+
+
+def analytical_energies(n_modes, omega):
     n = np.arange(1, n_modes + 1)
-    states = np.sqrt(2 / L) * np.sin(n[:, None] * np.pi * (x[None, :] / L))
-    energies = (n**2 * np.pi**2) / (2 * L**2)
+    return omega * (n + 0.5)
+
+
+def analytical_solution(n_modes, omega, x):
+    energies = analytical_energies(n_modes, omega)
+    states = analytical_wavefunction(n_modes, omega, x)
+    print(states.shape)
     return energies, states
 
 
@@ -115,7 +136,7 @@ def plot_energy_vs_n_sq(n_values, numerical_energies, theoretical_energies):
     plt.title("Energy vs $n^2$ with Error Bars")
     plt.legend()
     plt.grid(True)
-    plt.savefig("results/infinite_well/energy_vs_n^2.png")
+    plt.savefig("results/harmonic/energy_vs_n^2.png")
 
 
 def animate_density(x, density_theory, density_numerical, frames_outdir):
@@ -123,8 +144,30 @@ def animate_density(x, density_theory, density_numerical, frames_outdir):
     for i, (th, num) in enumerate(zip(density_theory, density_numerical)):
         plt.figure()
 
-        plt.plot(x, th, label="Theory",color="red",linewidth=3)
-        plt.plot(x, num, "--", label="Numerical",color="blue",linewidth=3)
+        plt.plot(x, th, label="Theory", color="red", linewidth=3)
+        plt.plot(x, num, "--", label="Numerical", color="blue", linewidth=3)
+
+        plt.xlim(x.min(), x.max())
+        plt.ylim(0, ymax)
+
+        plt.xlabel("x/L")
+        plt.ylabel(r"$|\psi|^2$")
+        plt.legend()
+        plt.title(f"Frame {i:04d}")
+
+        filename = os.path.join(frames_outdir, f"frame_{i:04d}.png")
+        plt.savefig(filename, dpi=150)
+        plt.close()
+
+    print("Frames saved.")
+
+
+def animate_density_numerical(x, density_numerical, frames_outdir):
+    ymax = np.max(density_numerical)
+    for i, num in enumerate(density_numerical):
+        plt.figure()
+
+        plt.plot(x, num, "--", label="Numerical", color="blue", linewidth=3)
 
         plt.xlim(x.min(), x.max())
         plt.ylim(0, ymax)
@@ -142,16 +185,15 @@ def animate_density(x, density_theory, density_numerical, frames_outdir):
 
 
 def setup_results_dir():
-
-    frames_dir = "results/infinite_well/frames"
-    os.makedirs("results/infinite_well", exist_ok=True)
+    frames_dir = "results/harmonic/frames"
+    os.makedirs("results/harmonic", exist_ok=True)
     os.makedirs(frames_dir, exist_ok=True)
 
 
 def ffmpeg_make_video_and_gif(
-    frames_pattern="results/infinite_well/frames/frame_%04d.png",
-    mp4_name="results/infinite_well/density.mp4",
-    gif_name="results/infinite_well/density.gif",
+    frames_pattern="results/harmonic/frames/frame_%04d.png",
+    mp4_name="results/harmonic/density.mp4",
+    gif_name="results/harmonic/density.gif",
     fps=30,
     scale_width=800,
 ):
@@ -209,36 +251,36 @@ def ffmpeg_make_video_and_gif(
 
 
 def main():
-    L = 1
-    N = 500
+    L = 5
+    N = 4000
     fps = 25
     n_super = 2
     n_modes = 50
+    omega = 50
     setup_results_dir()
     x, dx = build_grid(N, L)
 
     # -------------------------------------- Sovle Finite Differentiation Method ------------------
-    e, v = solve_numerical(N, dx, n_modes, x)
+    e, v = solve_numerical(N, dx, n_modes, omega, x)
 
     # -------------------------------------- Calculated Theoritical values ------------------------
-    act_energies, act_v = actual_solution(L, n_modes, x)
+    ae, av = analytical_solution(n_modes, omega, x)
     # -------------------------------------- Account for phase Shift ------------------------------
-    v = fix_phase_shift(n_modes, act_v, v, x)
+    v = fix_phase_shift(n_modes, av, v, x)
     # -------------------------------------- Intial Wave function Theoritical and Numerical -------
     psi0_numerical = initial_superposition(v, n_super, dx)
-    psi0_theory = initial_superposition(act_v, n_super, dx)
+    psi0_analytical = initial_superposition(av, n_super, dx)
     # -------------------------------------- Compute Co-efficients for Theoritical and Numerical---
     c_n = compute_coefficients(v, psi0_numerical, x)
-    a_n = compute_coefficients(act_v, psi0_theory, x)
+    a_n = compute_coefficients(av, psi0_analytical, x)
 
     # -------------------------------------- Time Evolution ---------------------------------------
-    omega = e[1] - e[0]
     frames = 5 * fps
     time = np.linspace(0, (2 * np.pi) / omega, frames)
     density_numerical = compute_density(time, e, v, c_n)
-    density_theory = compute_density(time, act_energies, act_v, a_n)
-    plot_energy_vs_n_sq(10, e, act_energies)
-    animate_density(x, density_theory, density_numerical, "results/infinite_well/frames")
+    density_theory = compute_density(time, ae, av, a_n)
+    plot_energy_vs_n_sq(n_modes, e, ae)
+    animate_density(x, density_numerical, density_theory, "results/harmonic/frames")
     ffmpeg_make_video_and_gif(fps=fps)
     print("Done")
 

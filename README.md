@@ -8,11 +8,17 @@
 * The wavefunction is evolved in time using the eigenvalue spectrum.
 
 ## Time Evolution
-![Time Evoluation](./results/density.gif)
-- Time Evoluation where $\ket{\psi}_s = \frac{1}{ \sqrt(2)} [\ \ket{\psi}_0 + \ket{\psi}_1$]
+![Time Evoluation](results/infinite_well/density.gif)
+- Time Evoluation of infinite_well,where $\ket{\psi}_s = \frac{1}{ \sqrt(2)} [\ \ket{\psi}_0 + \ket{\psi}_1$]
 ## $Engery\ \mathrm{vs} \ n^2$
-![Time Evoluation](results/energy_vs_n^2.png)
+![Time Evoluation](results/infinite_well/energy_vs_n^2.png)
 - quantum number (n) = 10
+
+![Time Evoluation](results/harmonic/density.gif)
+- Time Evoluation of harmonic,where $\ket{\psi}_s = \frac{1}{ \sqrt(2)} [\ \ket{\psi}_0 + \ket{\psi}_1$]
+## $Engery\ \mathrm{vs} \ n^2$
+![Time Evoluation](results/harmonic/energy_vs_n^2.png)
+- quantum number (n) = 50
 
 ## Equations used
 ### Schrödinger Time Dependent Equation
