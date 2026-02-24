@@ -210,7 +210,7 @@ def ffmpeg_make_video_and_gif(
 def main():
     L = 1
     N = 500
-    fps = 120
+    fps = 25
     n_super = 2
     n_modes = 50
     setup_results_dir()
