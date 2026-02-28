@@ -7,18 +7,31 @@
 * Superpositions of eigenstates are used to construct the initial wavefunction $\ket{\psi}_0$.
 * The wavefunction is evolved in time using the eigenvalue spectrum.
 
-## Time Evolution
+## Infinite Potential well
+### Time Evoluation
 ![Time Evoluation](results/infinite_well/density.gif)
 - Time Evoluation of infinite_well,where $\ket{\psi}_s = \frac{1}{ \sqrt(2)} [\ \ket{\psi}_0 + \ket{\psi}_1$]
-## $Engery\ \mathrm{vs} \ n^2$
+### $Engery\ \mathrm{vs} \ n^2$
 ![Time Evoluation](results/infinite_well/energy_vs_n^2.png)
 - quantum number (n) = 10
 
+## Harmonic Potential
+### Time Evoluation
 ![Time Evoluation](results/harmonic/density.gif)
 - Time Evoluation of harmonic,where $\ket{\psi}_s = \frac{1}{ \sqrt(2)} [\ \ket{\psi}_0 + \ket{\psi}_1$]
-## $Engery\ \mathrm{vs} \ n^2$
+### $Engery\ \mathrm{vs} \ n^2$
 ![Time Evoluation](results/harmonic/energy_vs_n^2.png)
 - quantum number (n) = 50
+
+## Finite Barrier Potential
+### Time Evoluation
+![Time Evoluation](./results/finite_barrier/density.gif)
+- Time Evoluation of finite_barrier,where $\ket{\psi}_s = \frac{1}{ \sqrt(2)} [\ \ket{\psi}_0 + \ket{\psi}_1$]
+### $Engery\ \mathrm{vs} \ n$
+![Time Evoluation](results/finite_barrier/energy_vs_n.png)
+- quantum number (n) = 50
+
+
 
 ## Equations used
 ### Schrödinger Time Dependent Equation
