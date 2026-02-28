@@ -26,7 +26,6 @@
 ## Finite Barrier Potential
 ### Time Evoluation
 ![Time Evoluation](results/finite_barrier/density.gif)
-- Time Evoluation of finite_barrier,where $\ket{\psi}_s = \frac{1}{ \sqrt(2)} [\ \ket{\psi}_0 + \ket{\psi}_1$]
 ### $Engery\ \mathrm{vs} \ n$
 ![Time Evoluation](results/finite_barrier/energy_vs_n.png)
 - quantum number (n) = 50
