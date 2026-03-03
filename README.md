@@ -1,7 +1,6 @@
 
 # Schrödinger Equation Solutions
 
-* Solution of the particle in a box (infinite potential well).
 * The time-independent Schrödinger equation is solved using the finite difference method.
 * Expansion coefficients $(c_n)$ are computed by projecting the initial state onto energy eigenstates.
 * Superpositions of eigenstates are used to construct the initial wavefunction $\ket{\psi}_0$.
