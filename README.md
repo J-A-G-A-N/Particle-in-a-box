@@ -25,7 +25,7 @@
 ## Finite Barrier Potential
 ### Time Evoluation
 ![Time Evoluation](results/finite-barrier/out.gif)
-
+- Potential is normalized
 
 ## Equations used
 ### Schrödinger Time Dependent Equation
