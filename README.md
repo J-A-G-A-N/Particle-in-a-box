@@ -24,11 +24,7 @@
 
 ## Finite Barrier Potential
 ### Time Evoluation
-![Time Evoluation](results/finite_barrier/density.gif)
-### $Engery\ \mathrm{vs} \ n$
-![Time Evoluation](results/finite_barrier/energy_vs_n.png)
-- quantum number (n) = 50
-
+![Time Evoluation](results/finite-barrier/out.gif)
 
 
 ## Equations used
@@ -72,4 +68,22 @@ $$
 
 $$
 A_j = \frac{\hbar^2}{m(\Delta x)^2} + V(x_j)
+$$
+
+### Split-Step Fourier Method 
+
+$$
+\psi(x,t+\Delta t) =
+e^{-i V(x)\Delta t / 2\hbar}
+\;
+\mathcal{F}^{-1}
+\left[
+e^{-i \frac{\hbar k^2}{2m}\Delta t}
+\;
+\mathcal{F}
+\left[
+e^{-i V(x)\Delta t / 2\hbar}
+\psi(x,t)
+\right]
+\right]
 $$
